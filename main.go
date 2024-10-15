@@ -1,55 +1,68 @@
 package main
 
 import (
+	"arbfeedtowasm/feedtypes"
+	"arbfeedtowasm/utils"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/big"
-
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
 
 	"github.com/offchainlabs/nitro/arbos"
 	"github.com/offchainlabs/nitro/arbos/arbostypes"
 )
 
-func printTransaction(tx *types.Transaction) {
-	jsonBytes, err := tx.MarshalJSON()
-	if err != nil {
-		log.Fatalf("Failed to marshal transaction: %v", err)
-	}
-
-	fmt.Println(string(jsonBytes))
-}
-
 func main() {
-		l2MsgBase64 := "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"
+	initialData := `{
+   "message":{
+      "header":{
+         "kind":3,
+         "sender":"0xa4b000000000000000000073657175656e636572",
+         "blockNumber":20964528,
+         "timestamp":1728917679,
+         "requestId":null,
+         "baseFeeL1":null
+      },
+      "l2Msg":"AwAAAAAAAAB0BAL4cIKksQmAhAUCKNCDAazKlCzrgtuuobIFFhzPr4J70VEd+cF/hxie3azpieaAwAGgKFmd95tDdc7OnwRKFobikJYLIzy9X+A8pq5zNpRoKwOgbgPVSQ+RMAYGqMtMBi5XBwvhIUGX9+txQGQ/at+GGLYAAAAAAAAD9gQC+QPxgqSxggEugIQD+i94gwoippTDZEK0pFIuhxOZzXF6vdhHqxH+iIC5A4SsllDYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKQMScy+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4jIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGN+WY7SM9A6mwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALveFG+4//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZw0xwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhPxveGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADiMjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////////////////////8AAAAAAAAAAAAAAAAAAAAA/////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARElAS3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu94Ub7j//wAAAAAAAAAAAAAAAP0oJ4uo+u4zaDF/EyUQM6t5kNAhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABk3yq1uwAAAAAAAAAAAAAAACXYh856NRcsYv6/1noYVvIPrrsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD9KCeLqPruM2gxfxMlEDOreZDQIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAaBDsgszwHWEJrgMhIbtPxsUz7FFL629rKo/eNsiBq8lmKBvuXqO8gNjHPsBDmlrTpRC2gSwuNi7tNXqbsyUq1xtvQAAAAAAAACRBPiOgw0/DoQE0pawg3794JSXgtJQZXsHhcFMDtVqLjD5cbE8oYCkAAim7QAAAABnDTCuAAAAAAAAAAAAAAAAAAAAAAAAAAHEEmq3gwFJhaBRPn2Orhz+ub3YoFMeP/iOK1/oCOsTlRt6FIuFVxzctaA3ioAh/GwdE5UIT569J77V5Ro0bPwbT6Bgmu6/sk+44QAAAAAAAAByBPhvgwIgSYQ349yAgwep6JTjIAKUAuMVm9LzaMiOoFDnfKEgA4CFAfFQUbaDAUmGoNZC4qMDbuGgkfQTn0OE8d+Ms0kNsBCIgcgLWCWG7x0LoEkLY6BqmoT92yoa0EVFOK3NpxgYKki3Wwqs3YO4enxkAAAAAAAAAHIE+G+DAqlwhDgu70CDCby2lK5u5n/A8FbLiDfKwCHuUOlWLtdKgIUDk9CWbIMBSYWgA8ANrj0FbU4Y1b7FxCr8/dR7GE4FM+SHM3/fK1vAFRKgUddGdxrwkQp+9YVdvzHi0RvCZrAKpdrZhAUMfI3hppg="
+   },
+   "delayedMessagesRead":1718868
+}`
 
-		l2MsgData, err := base64.StdEncoding.DecodeString(l2MsgBase64)
-		if err != nil {
-			fmt.Println("Error decoding l2Msg:", err)
-			return
-		}
-
-	msg := &arbostypes.L1IncomingMessage{
-		Header: &arbostypes.L1IncomingMessageHeader{
-			Kind:        3,
-			Poster:      common.HexToAddress("0xa4b000000000000000000073657175656e636572"),
-			BlockNumber: 20940885,
-			Timestamp:   1728631672,
-			RequestId:   nil,
-			L1BaseFee:   nil,
-		},
-		L2msg:        l2MsgData,
-		BatchGasCost: nil, // Optional
+	var jsonInput string
+	if utils.IsJSLike(initialData) {
+		jsonInput = utils.ConvertToJSON(initialData)
+		fmt.Println("Converted JS-like input to valid JSON")
+	} else {
+		jsonInput = initialData
+		fmt.Println("Input is already valid JSON")
 	}
-	
+
+	var input feedtypes.IncomingMessage
+
+	// Reading JSON from standard input
+	err := json.Unmarshal([]byte(jsonInput), &input)
+	if err != nil {
+		log.Fatalf("Failed to parse JSON input: %v", err)
+	}
+
+	// Step 4: Decode L2msg from base64 string
+	l2MsgData, err := base64.StdEncoding.DecodeString(input.Message.L2msg) // Now correctly decoding the base64 string
+	if err != nil {
+		log.Fatalf("Error decoding l2Msg: %v", err)
+	}
+
+	// Step 5: Parse the transactions
 	chainId := big.NewInt(42161)
-    
-	txs, err := arbos.ParseL2Transactions(msg, chainId)
-    if err != nil {
-        fmt.Println("Error parsing L2 transactions:", err)
-    } else {
-		printTransaction((txs[0]))
-    }
+	txs, err := arbos.ParseL2Transactions(&arbostypes.L1IncomingMessage{
+		Header: input.Message.Header,
+		L2msg:  l2MsgData, // Now using the decoded L2msg data
+	}, chainId)
+	if err != nil {
+		fmt.Println("Error parsing L2 transactions:", err)
+	} else {
+		fmt.Println("length of txns:", txs.Len())
+		utils.PrintTransaction(txs[0])
+		utils.PrintTransactionsRoot(txs)
+	}
 }
