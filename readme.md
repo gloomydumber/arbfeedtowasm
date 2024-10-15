@@ -66,3 +66,8 @@ $ git submodule update --init --recursive
 ```
 
 This command initializes the submodules recursively, pulling down all the necessary files for the project to work properly.
+
+## References
+
+[How to read Arbiturm Sequencer Feeds](https://docs.arbitrum.io/run-arbitrum-node/sequencer/read-sequencer-feed)
+[Arbitrum Specific Transaction Type](https://docs.arbitrum.io/how-arbitrum-works/arbos/geth#transaction-types)
