@@ -24,3 +24,8 @@ func PrintTransactionsRoot(txs types.Transactions) {
 
 	fmt.Println("Transactions root:", root)
 }
+
+// TODO: describe godocs here
+func PrintTransactionsLength(txs types.Transactions) {
+	fmt.Println("Transactions length:", txs.Len())
+}
