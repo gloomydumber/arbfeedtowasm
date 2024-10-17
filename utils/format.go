@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"log"
 	"regexp"
@@ -42,17 +41,4 @@ func ParseIncomingMessage(msg string) feedtypes.IncomingMessage {
 
 	// Return the parsed IncomingMessage struct
 	return parsedMsg
-}
-
-// TODO: describe godocs here
-// DecodeL2Message decodes a base64-encoded L2 message and handles errors internally.
-func DecodeL2Message(l2MsgBase64 string) []byte {
-	// Decode the base64-encoded string
-	l2MsgData, err := base64.StdEncoding.DecodeString(l2MsgBase64)
-	if err != nil {
-		log.Fatalf("Error decoding l2Msg: %v", err)
-	}
-
-	// Return the decoded data
-	return l2MsgData
 }

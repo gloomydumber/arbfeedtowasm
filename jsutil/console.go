@@ -5,5 +5,5 @@ import (
 )
 
 func logToConsole(message string) {
-    js.Global().Get("console").Call("log", message)
+	js.Global().Get("console").Call("log", message)
 }

@@ -1,6 +1,7 @@
-package utils
+package operation
 
 import (
+	"arbfeedtowasm/utils"
 	"fmt"
 	"math/big"
 
@@ -30,7 +31,7 @@ func makeStartTransaction(
 	}
 
 	startTx := &types.ArbitrumInternalTx{
-		ChainId: big.NewInt(ArbiturmChainId),
+		ChainId: big.NewInt(utils.ArbiturmChainId),
 		Data:    data,
 	}
 
@@ -46,7 +47,7 @@ func AppendStartTransaction(
 	currentTimestamp uint64,
 	prevTimestamp uint64,
 ) types.Transactions {
-	l2BlockNum := sequneceNumber + ArbiturmGenesisBlockNumber
+	l2BlockNum := sequneceNumber + utils.ArbiturmGenesisBlockNumber
 	timePassed := currentTimestamp - prevTimestamp
 
 	if l1BaseFee == nil {
