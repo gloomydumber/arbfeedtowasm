@@ -41,3 +41,11 @@ func ParseL2Transactions(msg feedtypes.IncomingMessage) types.Transactions {
 
 	return txns
 }
+
+// TODO: describe godocs here
+func ParseL2TransactionsWithStartTx(msg feedtypes.IncomingMessage, lastTimestamp uint64) types.Transactions {
+	txns := ParseL2Transactions(msg)
+	txns = AppendStartTransaction(txns, msg, lastTimestamp)
+
+	return txns
+}
