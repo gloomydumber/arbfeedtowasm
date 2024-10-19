@@ -1,12 +1,13 @@
 package utils_test
 
 import (
-	"reflect"
 	"testing"
 
 	"arbfeedtowasm/feedtypes"
 	"arbfeedtowasm/test"
 	"arbfeedtowasm/utils"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestParseIncomingMessage(t *testing.T) {
@@ -39,8 +40,8 @@ func TestParseIncomingMessage(t *testing.T) {
                 feedMessage = utils.ConvertToJSON(feedMessage)
             }
             parsedMessage := utils.ParseIncomingMessage(feedMessage)
-            if !reflect.DeepEqual(parsedMessage, tc.expected) {
-                t.Errorf("Wrong result for %s: got %+v, expected %+v", tc.name, parsedMessage, tc.expected)
+            if diff := cmp.Diff(tc.expected, parsedMessage); diff != "" {
+                t.Errorf("Test %s failed (-expected +got):\n%s", tc.name, diff)
             }
         })
     }
