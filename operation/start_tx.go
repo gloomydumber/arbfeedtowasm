@@ -1,9 +1,11 @@
 package operation
 
 import (
-	"arbfeedtowasm/utils"
 	"fmt"
 	"math/big"
+
+	"arbfeedtowasm/feedtypes"
+	"arbfeedtowasm/utils"
 
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/offchainlabs/nitro/arbos/util"
@@ -41,14 +43,13 @@ func makeStartTransaction(
 // TODO: define legit godoc here
 func AppendStartTransaction(
 	transactions types.Transactions,
-	l1BaseFee *big.Int,
-	l1BlockNum uint64,
-	sequneceNumber uint64,
-	currentTimestamp uint64,
-	prevTimestamp uint64,
+	msg feedtypes.IncomingMessage,
+	lastTimestamp uint64,
 ) types.Transactions {
-	l2BlockNum := sequneceNumber + utils.ArbiturmGenesisBlockNumber
-	timePassed := currentTimestamp - prevTimestamp
+	l1BaseFee := msg.Message.Message.Header.L1BaseFee
+	l1BlockNum := msg.Message.Message.Header.BlockNumber
+	l2BlockNum := msg.SequenceNumber + utils.ArbiturmGenesisBlockNumber
+	timePassed := msg.Message.Message.Header.Timestamp - lastTimestamp
 
 	if l1BaseFee == nil {
 		l1BaseFee = big.NewInt(0)
