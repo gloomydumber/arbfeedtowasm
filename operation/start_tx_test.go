@@ -11,7 +11,7 @@ import (
 
 func TestAppendStartTransaction(t *testing.T) {
 	var txns types.Transactions = test.GetExampleSignedTxns()
-	txns = operation.AppendStartTransaction(txns, test.ExampleParsedMessage, uint64(1728980884))
+	txns = operation.AppendStartTransaction(txns, test.ExampleParsedMessage, test.ExampleLastTimestamp)
 	var startTx = txns[0]
 
 	if !test.CompareArbitrumInternalTx(startTx, test.ExampleStartTx) {
