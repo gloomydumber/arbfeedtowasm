@@ -249,8 +249,8 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// ExampleTx1 (Legacy Tx)
 		v := big.NewInt(0x14900)
-		r := new(big.Int).SetBytes(common.Hex2Bytes("bd8465c9ae8a3b4d5a260bfd79fc277172e19d9c174ecb9168b3230658b0748"))
-		s := new(big.Int).SetBytes(common.Hex2Bytes("0x7722789046e7e67e44e576c3fc6c80f129b42c9e250b2521d63e5e82745f69dd"))
+		r := new(big.Int).SetBytes(common.Hex2Bytes("fbd8465c9ae8a3b4d5a260bfd79fc277172e19d9c174ecb9168b3230658b0748"))
+		s := new(big.Int).SetBytes(common.Hex2Bytes("7722789046e7e67e44e576c3fc6c80f129b42c9e250b2521d63e5e82745f69dd"))
 	
 		// Create signature for ExampleTx1
 		sig := make([]byte, 65)
@@ -261,8 +261,8 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// ExampleTx2 (EIP-1559 Dynamic Fee Tx)
 		v.SetInt64(0x0) // Use yParity for EIP-1559
-		r.SetBytes(common.Hex2Bytes("0xbc9ec159fbab7585adcd2e595c5dd6654c810ebecf4f9e92c809862bc7c8f12d"))
-		s.SetBytes(common.Hex2Bytes("0x7e49cf44d7c94a95a61ad54aa752afa7696a66b73e2c116efb6431c91918e49d"))
+		r.SetBytes(common.Hex2Bytes("bc9ec159fbab7585adcd2e595c5dd6654c810ebecf4f9e92c809862bc7c8f12d"))
+		s.SetBytes(common.Hex2Bytes("7e49cf44d7c94a95a61ad54aa752afa7696a66b73e2c116efb6431c91918e49d"))
 	
 		// Create signature for ExampleTx2
 		r.FillBytes(sig[:32])
@@ -272,8 +272,8 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// ExampleTx3 (Legacy Tx)
 		v.SetInt64(0x14986)
-		r.SetBytes(common.Hex2Bytes("0x1abc2816b24b7750b68697b541ba9cf14c2255c177cf07e25a506446281f582f"))
-		s.SetBytes(common.Hex2Bytes("0x70a663c7c6030abe9bbca6cd525b489fe158fab5251b425e33534136cfc81c2b"))
+		r.SetBytes(common.Hex2Bytes("1abc2816b24b7750b68697b541ba9cf14c2255c177cf07e25a506446281f582f"))
+		s.SetBytes(common.Hex2Bytes("70a663c7c6030abe9bbca6cd525b489fe158fab5251b425e33534136cfc81c2b"))
 	
 		// Create signature for ExampleTx3
 		r.FillBytes(sig[:32])
@@ -283,8 +283,8 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// ExampleTx4 (EIP-1559 Dynamic Fee Tx)
 		v.SetInt64(0x0)
-		r.SetBytes(common.Hex2Bytes("0xbf638f65ce2b1b38d8db4d09932813846279eda1563b9247ebb16dbf87f70e4c"))
-		s.SetBytes(common.Hex2Bytes("0x4e9fb0ff584e168d791ff03272ede382a01313fc85e97e6f78adc23fa18cb103"))
+		r.SetBytes(common.Hex2Bytes("bf638f65ce2b1b38d8db4d09932813846279eda1563b9247ebb16dbf87f70e4c"))
+		s.SetBytes(common.Hex2Bytes("4e9fb0ff584e168d791ff03272ede382a01313fc85e97e6f78adc23fa18cb103"))
 	
 		// Create signature for ExampleTx4
 		r.FillBytes(sig[:32])
@@ -294,8 +294,8 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// ExampleTx5 (Legacy Tx)
 		v.SetInt64(0x14986)
-		r.SetBytes(common.Hex2Bytes("0x90f135aab713fe2cda3a9aa4715ed86fd422f36aa4a52cebb0afce480dfaa12a"))
-		s.SetBytes(common.Hex2Bytes("0x1079f4721ad95de39120ad8bbb85ead4a7f676d6b789c690a9ecc276945e977d"))
+		r.SetBytes(common.Hex2Bytes("90f135aab713fe2cda3a9aa4715ed86fd422f36aa4a52cebb0afce480dfaa12a"))
+		s.SetBytes(common.Hex2Bytes("1079f4721ad95de39120ad8bbb85ead4a7f676d6b789c690a9ecc276945e977d"))
 	
 		// Create signature for ExampleTx5
 		r.FillBytes(sig[:32])
@@ -305,8 +305,8 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// ExampleTx6 (EIP-1559 Dynamic Fee Tx)
 		v.SetInt64(0x1) // yParity is 1
-		r.SetBytes(common.Hex2Bytes("0x6529cb7b571f6061d0c6285e191fa07fe1193259f4376b4aa730b94cdda6fb0b"))
-		s.SetBytes(common.Hex2Bytes("0x2d1753cf9a23fda74767d24b35ddf38317dfdbcc8e22b4e9e97dde8d65e8413f"))
+		r.SetBytes(common.Hex2Bytes("6529cb7b571f6061d0c6285e191fa07fe1193259f4376b4aa730b94cdda6fb0b"))
+		s.SetBytes(common.Hex2Bytes("2d1753cf9a23fda74767d24b35ddf38317dfdbcc8e22b4e9e97dde8d65e8413f"))
 	
 		// Create signature for ExampleTx6
 		r.FillBytes(sig[:32])
