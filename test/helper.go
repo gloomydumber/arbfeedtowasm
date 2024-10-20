@@ -243,6 +243,11 @@ var ExampleTx6 *types.Transaction = types.NewTx(&types.DynamicFeeTx{
 // Declare the full transactions slice
 var ExampleTxns types.Transactions = types.Transactions{ExampleTx1, ExampleTx2, ExampleTx3, ExampleTx4, ExampleTx5, ExampleTx6}
 
+var ExampleStartTx *types.Transaction = types.NewTx(&types.ArbitrumInternalTx{
+	ChainId: big.NewInt(utils.ArbiturmChainId),
+	Data: common.FromHex("0x6bf6a42d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000013ff92b000000000000000000000000000000000000000000000000000000000fbc76320000000000000000000000000000000000000000000000000000000000000000"),
+})
+
 // TODO: v is defined as hard-coded way, v calculation with r, s, tx hash should be applied
 func GetExampleSignedTxns() types.Transactions {
 	chainId := big.NewInt(utils.ArbiturmChainId)
@@ -379,6 +384,29 @@ func compareBigInts(b1, b2 *big.Int) bool {
 	return b1.Cmp(b2) == 0
 }
 
+// CompareArbitrumInternalTx compares two ArbitrumInternalTx transactions field by field.
+func CompareArbitrumInternalTx(tx1, tx2 *types.Transaction) bool {
+	// Check if both transactions have the type ArbitrumInternalTxType (0x6A)
+	if tx1.Type() != types.ArbitrumInternalTxType || tx2.Type() != types.ArbitrumInternalTxType {
+		// If either transaction is not of type ArbitrumInternalTxType, return false
+		return false
+	}
+
+	// Compare ChainId fields
+	if tx1.ChainId().Cmp(tx2.ChainId()) != 0 {
+		return false
+	}
+
+	// Compare Data fields
+	if !bytes.Equal(tx1.Data(), tx2.Data()) {
+		return false
+	}
+
+	// If all fields match, return true
+	return true
+}
+
+// Notice : Only v, r, s value is printed as fmt.Printf()
 func PrintTransactionFields(tx1, tx2 *types.Transaction) bool {
 	fmt.Println("Comparing transactions...")
 	
