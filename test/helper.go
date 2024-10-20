@@ -242,15 +242,17 @@ var ExampleDecodedL2Message []byte = []byte{
     // Declare the full transactions slice
     var ExampleTxns types.Transactions = types.Transactions{ExampleTx1, ExampleTx2, ExampleTx3, ExampleTx4, ExampleTx5, ExampleTx6}
 
+	// TODO: v is defined as hard-coded way, v calculation with r, s, tx hash should be applied
 	func GetExampleSignedTxns() types.Transactions {
 		chainId := big.NewInt(utils.ArbiturmChainId)
 		legacySigner := types.NewEIP155Signer(chainId)
 		londonSigner := types.NewLondonSigner(chainId)
 	
 		// ExampleTx1 (Legacy Tx)
-		v := big.NewInt(0x14900)
 		r := new(big.Int).SetBytes(common.Hex2Bytes("fbd8465c9ae8a3b4d5a260bfd79fc277172e19d9c174ecb9168b3230658b0748"))
 		s := new(big.Int).SetBytes(common.Hex2Bytes("7722789046e7e67e44e576c3fc6c80f129b42c9e250b2521d63e5e82745f69dd"))
+		v := big.NewInt(0x14900)
+		// v := big.NewInt(0x14985)
 	
 		// Create signature for ExampleTx1
 		sig := make([]byte, 65)
@@ -260,9 +262,9 @@ var ExampleDecodedL2Message []byte = []byte{
 		signedTx1, _ := ExampleTx1.WithSignature(legacySigner, sig)
 	
 		// ExampleTx2 (EIP-1559 Dynamic Fee Tx)
-		v.SetInt64(0x0) // Use yParity for EIP-1559
 		r.SetBytes(common.Hex2Bytes("bc9ec159fbab7585adcd2e595c5dd6654c810ebecf4f9e92c809862bc7c8f12d"))
 		s.SetBytes(common.Hex2Bytes("7e49cf44d7c94a95a61ad54aa752afa7696a66b73e2c116efb6431c91918e49d"))
+		v = big.NewInt(0)
 	
 		// Create signature for ExampleTx2
 		r.FillBytes(sig[:32])
@@ -271,9 +273,11 @@ var ExampleDecodedL2Message []byte = []byte{
 		signedTx2, _ := ExampleTx2.WithSignature(londonSigner, sig)
 	
 		// ExampleTx3 (Legacy Tx)
-		v.SetInt64(0x14986)
 		r.SetBytes(common.Hex2Bytes("1abc2816b24b7750b68697b541ba9cf14c2255c177cf07e25a506446281f582f"))
 		s.SetBytes(common.Hex2Bytes("70a663c7c6030abe9bbca6cd525b489fe158fab5251b425e33534136cfc81c2b"))
+		// v = CalculateV(chainId, common.Hex2Bytes("680ebd654e803c305d97c92faef942c685dfbe38bfc0c46c46f16022b7ace0ac"), r, s)
+		v = big.NewInt(0x14901)
+		// v = big.NewInt(0x14986)
 	
 		// Create signature for ExampleTx3
 		r.FillBytes(sig[:32])
@@ -282,9 +286,9 @@ var ExampleDecodedL2Message []byte = []byte{
 		signedTx3, _ := ExampleTx3.WithSignature(legacySigner, sig)
 	
 		// ExampleTx4 (EIP-1559 Dynamic Fee Tx)
-		v.SetInt64(0x0)
 		r.SetBytes(common.Hex2Bytes("bf638f65ce2b1b38d8db4d09932813846279eda1563b9247ebb16dbf87f70e4c"))
 		s.SetBytes(common.Hex2Bytes("4e9fb0ff584e168d791ff03272ede382a01313fc85e97e6f78adc23fa18cb103"))
+		v = big.NewInt(0)
 	
 		// Create signature for ExampleTx4
 		r.FillBytes(sig[:32])
@@ -293,9 +297,11 @@ var ExampleDecodedL2Message []byte = []byte{
 		signedTx4, _ := ExampleTx4.WithSignature(londonSigner, sig)
 	
 		// ExampleTx5 (Legacy Tx)
-		v.SetInt64(0x14986)
 		r.SetBytes(common.Hex2Bytes("90f135aab713fe2cda3a9aa4715ed86fd422f36aa4a52cebb0afce480dfaa12a"))
 		s.SetBytes(common.Hex2Bytes("1079f4721ad95de39120ad8bbb85ead4a7f676d6b789c690a9ecc276945e977d"))
+		// v = CalculateV(chainId, common.Hex2Bytes("6047776a8557e351598b7fb52786897cb80e09d92e6bff2f2dbc0b64ad6872dc"), r, s)
+		v = big.NewInt(0x14901)
+		// v = big.NewInt(0x14986)
 	
 		// Create signature for ExampleTx5
 		r.FillBytes(sig[:32])
@@ -304,9 +310,9 @@ var ExampleDecodedL2Message []byte = []byte{
 		signedTx5, _ := ExampleTx5.WithSignature(legacySigner, sig)
 	
 		// ExampleTx6 (EIP-1559 Dynamic Fee Tx)
-		v.SetInt64(0x1) // yParity is 1
 		r.SetBytes(common.Hex2Bytes("6529cb7b571f6061d0c6285e191fa07fe1193259f4376b4aa730b94cdda6fb0b"))
 		s.SetBytes(common.Hex2Bytes("2d1753cf9a23fda74767d24b35ddf38317dfdbcc8e22b4e9e97dde8d65e8413f"))
+		v = big.NewInt(1) // yParity is 1
 	
 		// Create signature for ExampleTx6
 		r.FillBytes(sig[:32])
@@ -316,7 +322,7 @@ var ExampleDecodedL2Message []byte = []byte{
 	
 		// Return signed transactions
 		txns := types.Transactions{signedTx1, signedTx2, signedTx3, signedTx4, signedTx5, signedTx6}
-		fmt.Println("Manually Built txns: ", txns)
+		// fmt.Println("Manually Built txns: ", txns)
 		return txns
 	}
 
@@ -335,9 +341,9 @@ var ExampleDecodedL2Message []byte = []byte{
 				tx1.Gas() == tx2.Gas() &&
 				compareBigInts(tx1.GasPrice(), tx2.GasPrice()) &&
 				bytes.Equal(tx1.Data(), tx2.Data()) &&
-				compareSignatureValues(tx1, tx2) // Compare v, r, s
-				// tx1.Hash() == tx2.Hash() &&         // Compare hash
-				// compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
+				compareSignatureValues(tx1, tx2) && // Compare v, r, s
+				tx1.Hash() == tx2.Hash() &&         // Compare hash
+				compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
 	
 		case types.DynamicFeeTxType: // EIP-1559 transactions (type 0x2)
 			return tx1.Nonce() == tx2.Nonce() &&
@@ -347,9 +353,9 @@ var ExampleDecodedL2Message []byte = []byte{
 				compareBigInts(tx1.GasTipCap(), tx2.GasTipCap()) &&
 				compareBigInts(tx1.GasFeeCap(), tx2.GasFeeCap()) &&
 				bytes.Equal(tx1.Data(), tx2.Data()) &&
-				compareSignatureValues(tx1, tx2) // Compare v, r, s
-				// tx1.Hash() == tx2.Hash() &&         // Compare hash
-				// compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
+				compareSignatureValues(tx1, tx2) && // Compare v, r, s
+				tx1.Hash() == tx2.Hash() &&         // Compare hash
+				compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
 	
 		default:
 			// Return false for unsupported or unknown transaction types
@@ -396,3 +402,34 @@ var ExampleDecodedL2Message []byte = []byte{
 			tx1.Hash() == tx2.Hash() && // Compare hash
 			compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
 	}
+
+	// func CalculateV(chainID *big.Int, txHash []byte, r *big.Int, s *big.Int) (byte) {
+	// 	// Prepare the signature bytes array (r + s + v)
+	// 	sig := make([]byte, 65)
+	// 	r.FillBytes(sig[:32])
+	// 	s.FillBytes(sig[32:64])
+
+	// 	// Test both recovery IDs (v=0 and v=1)
+	// 	for recoveryID := byte(0); recoveryID < 2; recoveryID++ {
+	// 		sig[64] = recoveryID
+
+	// 		// Recover the public key with this signature
+	// 		// pubKey, err := crypto.SigToPub(crypto.Keccak256Hash(txHash).Bytes(), sig)
+	// 		// if err != nil {
+	// 		// 	return 0
+	// 		// }
+
+	// 		// Check if the recovered address matches the sender (optional, but can be used)
+	// 		// recoveredAddr := crypto.PubkeyToAddress(*pubKey)
+	// 		// fmt.Printf("Recovered Address with v=%d: %s\n", recoveryID, recoveredAddr.Hex())
+
+	// 		// If recovery was successful, return the correct v
+	// 		v := big.NewInt(int64(recoveryID))
+	// 		v = v.Add(v, new(big.Int).Mul(chainID, big.NewInt(2))) // chainID * 2
+	// 		v = v.Add(v, big.NewInt(35))                          // Add 35
+
+	// 		return byte(v)
+	// 	}
+
+		// return 0
+	// }
