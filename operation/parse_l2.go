@@ -1,3 +1,9 @@
+// Package operation provides functions to parse and manipulate Arbitrum Layer 2 (L2) transactions,
+// including calculating the Merkle root hash and handling 'Start Block Transactions' which are
+// required for block initialization.
+//
+// This package is designed to work with the Arbitrum sequencer feed, decoding and processing
+// transactions in a manner compatible with the Arbitrum Nitro framework.
 package operation
 
 import (
@@ -13,20 +19,23 @@ import (
 	"github.com/offchainlabs/nitro/arbos/arbostypes"
 )
 
-// TODO: describe godocs here
 // DecodeL2Message decodes a base64-encoded L2 message and handles errors internally.
 func DecodeL2Message(l2MsgBase64 string) []byte {
-	// Decode the base64-encoded string
 	l2MsgData, err := base64.StdEncoding.DecodeString(l2MsgBase64)
 	if err != nil {
 		log.Fatalf("Error decoding l2Msg: %v", err)
 	}
 
-	// Return the decoded data
 	return l2MsgData
 }
 
-// TODO: describe godocs here
+// ParseL2Transactions decodes a base64-encoded L2 message and parses it into transactions.
+// It uses the arbos package from Nitro to handle the decoding and parsing logic.
+//
+// The input is an IncomingMessage from the Arbitrum sequencer feed, and the function
+// returns the parsed transactions.
+//
+// See also: https://github.com/OffchainLabs/nitro/blob/5f24df4740bdbf3f0dd07aa32ead06c2919087e4/arbos/parse_l2.go#L20
 func ParseL2Transactions(msg feedtypes.IncomingMessage) types.Transactions {
 	l2MsgData := DecodeL2Message(msg.Message.Message.L2msg)
 
@@ -42,7 +51,19 @@ func ParseL2Transactions(msg feedtypes.IncomingMessage) types.Transactions {
 	return txns
 }
 
-// TODO: describe godocs here
+// ParseL2TransactionsWithStartTx decodes a base64-encoded L2 message and parses it into transactions,
+// including the 'Start Block Transaction'.
+//
+// The 'Start Block Transaction' is an ArbitrumInternalTx added by the Sequencer at the beginning of every block.
+// This transaction can also be viewed on Arbiscan for every block.
+//
+// Since the Arbitrum Sequencer feed does not include information about the 'Start Block Transaction',
+// it must be manually appended to the very first position of the parsed transactions.
+//
+// The function takes an IncomingMessage from the Arbitrum sequencer feed and the lastTimestamp, which
+// is the timestamp from the previous sequencer feed message, used to construct the 'Start Block Transaction'.
+//
+// Returns the transactions with the manually appended 'Start Block Transaction'.
 func ParseL2TransactionsWithStartTx(msg feedtypes.IncomingMessage, lastTimestamp uint64) types.Transactions {
 	txns := ParseL2Transactions(msg)
 	txns = AppendStartTransaction(txns, msg, lastTimestamp)

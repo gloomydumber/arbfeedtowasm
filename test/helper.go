@@ -180,22 +180,22 @@ var ExampleDecodedL2Message []byte = []byte{
 var ExampleTx1 *types.Transaction = types.NewTransaction(
 	13, // Nonce
 	common.HexToAddress("0x1195cf65f83b3a5768f3c496d3a05ad6412c64b7"), // To address
-	big.NewInt(0x44364c5bb000), // Value (in Wei)
-	0x6bf1c,                    // Gas limit
-	big.NewInt(0x9d2a60),       // Gas price
+	big.NewInt(0x44364c5bb000),                                        // Value (in Wei)
+	0x6bf1c,                                                           // Gas limit
+	big.NewInt(0x9d2a60),                                              // Gas price
 	common.FromHex("0xd123b4d800000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000340000000000000000000000000000000007b8e9a538f2f41dea5af3f2b680affe3ed664d342fe5e5575c364c9e499fe5e9e0a61e30824a24fc72b464d5e5c9c363000000000000000000000000000000000000000000000000000044364c5bb000000000000000000000000000a6b9804e92938eb8e97b11f75701dce12e9ec8a60000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000024000000000000000000000000000000000000000000000000000000000000002a000000000000000000000000000000000000000000000000000000000000002c000000000000000000000000000000000000000000000000000000000000002e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084d6574614d61736b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000035697066733a2f2f516d6638344231556368554c696554685458397155724d7a515732736169433561686e7a5741626d515a6d4d567000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041fd65be6d3b565c0758f23a00a60ad2d9160ace658cca6ee5fdfad6c05e41fdc31fbffa51352d103c9b9c1ffaaadaf00987accf3a0a2e0db20d16fc5569e3d2811c00000000000000000000000000000000000000000000000000000000000000"), // Input data
 )
 
 // Transaction 2 (type: 0x2)
 var ExampleToAddress2 common.Address = common.HexToAddress("0x82af49447d8a07e3bd95bd0d56f35241523fbab1")
 var ExampleTx2 *types.Transaction = types.NewTx(&types.DynamicFeeTx{
-	Nonce:    40285,
+	Nonce:     40285,
 	GasTipCap: big.NewInt(0x0),
 	GasFeeCap: big.NewInt(0x1312d00),
-	Gas:      0x7a120,
-	To:       &ExampleToAddress2,
-	Value:    big.NewInt(0),
-	Data:     common.FromHex("0x095ea7b3000000000000000000000000e592427a0aece92de3edee1f18e0157c058615640000000000000000000000000000000000000000000000000001f438daa06000"),
+	Gas:       0x7a120,
+	To:        &ExampleToAddress2,
+	Value:     big.NewInt(0),
+	Data:      common.FromHex("0x095ea7b3000000000000000000000000e592427a0aece92de3edee1f18e0157c058615640000000000000000000000000000000000000000000000000001f438daa06000"),
 })
 
 // Transaction 3 (type: 0x0)
@@ -211,13 +211,13 @@ var ExampleTx3 *types.Transaction = types.NewTransaction(
 // Transaction 4 (type: 0x2)
 var ExampleToAddress4 common.Address = common.HexToAddress("0x8113c9251d58fd1767de65d76f1b0cb7365f1830")
 var ExampleTx4 *types.Transaction = types.NewTx(&types.DynamicFeeTx{
-	Nonce:    2224539,
+	Nonce:     2224539,
 	GasTipCap: big.NewInt(0x989680),
 	GasFeeCap: big.NewInt(0x1312d00),
-	Gas:      0xf424e,
-	To:       &ExampleToAddress4,
-	Value:    big.NewInt(0),
-	Data:     common.FromHex("0x00000001fea599000000ca16cdb274baf80015d217c17f897a000000001a"),
+	Gas:       0xf424e,
+	To:        &ExampleToAddress4,
+	Value:     big.NewInt(0),
+	Data:      common.FromHex("0x00000001fea599000000ca16cdb274baf80015d217c17f897a000000001a"),
 })
 
 // Transaction 5 (type: 0x0)
@@ -233,13 +233,13 @@ var ExampleTx5 *types.Transaction = types.NewTransaction(
 // Transaction 6 (type: 0x2)
 var ExampleToAddress6 common.Address = common.HexToAddress("0xa1d2d18e055889b06adf926e3ccf4cca430a20c2")
 var ExampleTx6 *types.Transaction = types.NewTx(&types.DynamicFeeTx{
-	Nonce:    489267,
+	Nonce:     489267,
 	GasTipCap: big.NewInt(0x77359400),
 	GasFeeCap: big.NewInt(0x47868c00),
-	Gas:      0x2cd0e,
-	To:       &ExampleToAddress6,
-	Value:    big.NewInt(0x2b3374a078000),
-	Data:     []byte{}, // No input data
+	Gas:       0x2cd0e,
+	To:        &ExampleToAddress6,
+	Value:     big.NewInt(0x2b3374a078000),
+	Data:      []byte{}, // No input data
 })
 
 // Declare the full transactions slice
@@ -247,7 +247,7 @@ var ExampleTxns types.Transactions = types.Transactions{ExampleTx1, ExampleTx2, 
 
 var ExampleStartTx *types.Transaction = types.NewTx(&types.ArbitrumInternalTx{
 	ChainId: big.NewInt(utils.ArbiturmChainId),
-	Data: common.FromHex("0x6bf6a42d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000013ff92b000000000000000000000000000000000000000000000000000000000fbc76320000000000000000000000000000000000000000000000000000000000000000"),
+	Data:    common.FromHex("0x6bf6a42d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000013ff92b000000000000000000000000000000000000000000000000000000000fbc76320000000000000000000000000000000000000000000000000000000000000000"),
 })
 
 var ExampleTransactionsRoot common.Hash = common.HexToHash("0x5ab97e5e84285e1186c98c258983200eff43265f7c14fc8e2cb416804bf76952")
@@ -330,24 +330,6 @@ func GetExampleSignedTxns() types.Transactions {
 	return txns
 }
 
-// func GetSignedStartTx() types.Transaction {
-	// chainId := big.NewInt(utils.ArbiturmChainId)
-	// legacySigner := types.NewEIP155Signer(chainId)
-	// types.signer
-
-	// // ExampleTx1 (Legacy Tx)
-	// r := new(big.Int).SetBytes(common.Hex2Bytes("fbd8465c9ae8a3b4d5a260bfd79fc277172e19d9c174ecb9168b3230658b0748"))
-	// s := new(big.Int).SetBytes(common.Hex2Bytes("7722789046e7e67e44e576c3fc6c80f129b42c9e250b2521d63e5e82745f69dd"))
-	// v := big.NewInt(0)
-
-	// // Create signature for ExampleTx1
-	// sig := make([]byte, 65)
-	// r.FillBytes(sig[:32])
-	// s.FillBytes(sig[32:64])
-	// sig[64] = byte(v.Uint64())
-	// signedTx1, _ := ExampleTx1.WithSignature(legacySigner, sig)
-// } 
-
 func CompareTransactionFields(tx1, tx2 *types.Transaction) bool {
 	// Compare transaction types first
 	if tx1.Type() != tx2.Type() {
@@ -364,7 +346,7 @@ func CompareTransactionFields(tx1, tx2 *types.Transaction) bool {
 			compareBigInts(tx1.GasPrice(), tx2.GasPrice()) &&
 			bytes.Equal(tx1.Data(), tx2.Data()) &&
 			compareSignatureValues(tx1, tx2) && // Compare v, r, s
-			tx1.Hash() == tx2.Hash() &&         // Compare hash
+			tx1.Hash() == tx2.Hash() && // Compare hash
 			compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
 
 	case types.DynamicFeeTxType: // EIP-1559 transactions (type 0x2)
@@ -376,9 +358,9 @@ func CompareTransactionFields(tx1, tx2 *types.Transaction) bool {
 			compareBigInts(tx1.GasFeeCap(), tx2.GasFeeCap()) &&
 			bytes.Equal(tx1.Data(), tx2.Data()) &&
 			compareSignatureValues(tx1, tx2) && // Compare v, r, s
-			tx1.Hash() == tx2.Hash() &&         // Compare hash
+			tx1.Hash() == tx2.Hash() && // Compare hash
 			compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
-	
+
 	case types.ArbitrumInternalTxType:
 		return CompareArbitrumInternalTx(tx1, tx2)
 
@@ -434,16 +416,16 @@ func CompareArbitrumInternalTx(tx1, tx2 *types.Transaction) bool {
 // Notice : Only v, r, s value is printed as fmt.Printf()
 func PrintTransactionFields(tx1, tx2 *types.Transaction) bool {
 	fmt.Println("Comparing transactions...")
-	
+
 	v1, r1, s1 := tx1.RawSignatureValues()
 	v2, r2, s2 := tx2.RawSignatureValues()
-	
+
 	fmt.Printf("v1: %v, v2: %v\n", v1, v2)
 	fmt.Printf("r1: %v, r2: %v\n", r1, r2)
 	fmt.Printf("s1: %v, s2: %v\n", s1, s2)
-	
+
 	// Add your previous comparison code here
-	
+
 	return compareBigInts(v1, v2) &&
 		compareBigInts(r1, r2) &&
 		compareBigInts(s1, s2) &&
