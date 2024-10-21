@@ -22,4 +22,6 @@ type MessageWrapper struct {
 type Message struct {
 	Header *arbostypes.L1IncomingMessageHeader `json:"header"`
 	L2msg  string                              `json:"l2Msg"`
+	// Only used for `L1MessageType_BatchPostingReport`
+	BatchGasCost *uint64 `json:"batchGasCost,omitempty" rlp:"optional"`
 }
