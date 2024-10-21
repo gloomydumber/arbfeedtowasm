@@ -35,8 +35,8 @@ func TestParseL2Transactions(t *testing.T) {
 
 func TestParseL2TransactionsWithStartTx(t *testing.T) {
 	txns := operation.ParseL2TransactionsWithStartTx(test.ExampleParsedMessage, test.ExampleLastTimestamp)
-	ExpectedTxns :=  append(types.Transactions{test.ExampleStartTx}, test.GetExampleSignedTxns()...)
-	
+	ExpectedTxns := append(types.Transactions{test.ExampleStartTx}, test.GetExampleSignedTxns()...)
+
 	// Compare fields for all transactions
 	for i, expectedTx := range ExpectedTxns {
 		gotTx := txns[i]
