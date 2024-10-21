@@ -2,7 +2,6 @@ package operation
 
 import (
 	"encoding/base64"
-	"fmt"
 	"log"
 	"math/big"
 
@@ -39,7 +38,7 @@ func ParseL2Transactions(msg feedtypes.IncomingMessage) types.Transactions {
 	if err != nil {
 		log.Fatalf("Error parsing txns: %v", err)
 	}
-	fmt.Println(txns)
+
 	return txns
 }
 

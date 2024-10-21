@@ -250,6 +250,8 @@ var ExampleStartTx *types.Transaction = types.NewTx(&types.ArbitrumInternalTx{
 	Data: common.FromHex("0x6bf6a42d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000013ff92b000000000000000000000000000000000000000000000000000000000fbc76320000000000000000000000000000000000000000000000000000000000000000"),
 })
 
+var ExampleTransactionsRoot common.Hash = common.HexToHash("0x5ab97e5e84285e1186c98c258983200eff43265f7c14fc8e2cb416804bf76952")
+
 // TODO: v is defined as hard-coded way, v calculation with r, s, tx hash should be applied
 func GetExampleSignedTxns() types.Transactions {
 	chainId := big.NewInt(utils.ArbiturmChainId)
@@ -327,6 +329,24 @@ func GetExampleSignedTxns() types.Transactions {
 	txns := types.Transactions{signedTx1, signedTx2, signedTx3, signedTx4, signedTx5, signedTx6}
 	return txns
 }
+
+// func GetSignedStartTx() types.Transaction {
+	// chainId := big.NewInt(utils.ArbiturmChainId)
+	// legacySigner := types.NewEIP155Signer(chainId)
+	// types.signer
+
+	// // ExampleTx1 (Legacy Tx)
+	// r := new(big.Int).SetBytes(common.Hex2Bytes("fbd8465c9ae8a3b4d5a260bfd79fc277172e19d9c174ecb9168b3230658b0748"))
+	// s := new(big.Int).SetBytes(common.Hex2Bytes("7722789046e7e67e44e576c3fc6c80f129b42c9e250b2521d63e5e82745f69dd"))
+	// v := big.NewInt(0)
+
+	// // Create signature for ExampleTx1
+	// sig := make([]byte, 65)
+	// r.FillBytes(sig[:32])
+	// s.FillBytes(sig[32:64])
+	// sig[64] = byte(v.Uint64())
+	// signedTx1, _ := ExampleTx1.WithSignature(legacySigner, sig)
+// } 
 
 func CompareTransactionFields(tx1, tx2 *types.Transaction) bool {
 	// Compare transaction types first
