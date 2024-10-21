@@ -378,6 +378,9 @@ func CompareTransactionFields(tx1, tx2 *types.Transaction) bool {
 			compareSignatureValues(tx1, tx2) && // Compare v, r, s
 			tx1.Hash() == tx2.Hash() &&         // Compare hash
 			compareBigInts(tx1.ChainId(), tx2.ChainId()) // Compare chainId
+	
+	case types.ArbitrumInternalTxType:
+		return CompareArbitrumInternalTx(tx1, tx2)
 
 	default:
 		// Return false for unsupported or unknown transaction types

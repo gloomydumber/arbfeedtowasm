@@ -6,6 +6,7 @@ import (
 	"arbfeedtowasm/operation"
 	"arbfeedtowasm/test"
 
+	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -24,6 +25,20 @@ func TestParseL2Transactions(t *testing.T) {
 
 	// Compare fields for all transactions
 	for i, expectedTx := range test.GetExampleSignedTxns() {
+		gotTx := txns[i]
+		test.PrintTransactionFields(gotTx, expectedTx)
+		if !test.CompareTransactionFields(gotTx, expectedTx) {
+			t.Errorf("Test failed for transaction %d: expected %v, got %v", i, expectedTx, gotTx)
+		}
+	}
+}
+
+func TestParseL2TransactionsWithStartTx(t *testing.T) {
+	txns := operation.ParseL2TransactionsWithStartTx(test.ExampleParsedMessage, test.ExampleLastTimestamp)
+	ExpectedTxns :=  append(types.Transactions{test.ExampleStartTx}, test.GetExampleSignedTxns()...)
+	
+	// Compare fields for all transactions
+	for i, expectedTx := range ExpectedTxns {
 		gotTx := txns[i]
 		test.PrintTransactionFields(gotTx, expectedTx)
 		if !test.CompareTransactionFields(gotTx, expectedTx) {
