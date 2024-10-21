@@ -39,10 +39,19 @@ func DecodeL2Message(l2MsgBase64 string) []byte {
 func ParseL2Transactions(msg feedtypes.IncomingMessage) types.Transactions {
 	l2MsgData := DecodeL2Message(msg.Message.Message.L2msg)
 
-	txns, err := arbos.ParseL2Transactions(&arbostypes.L1IncomingMessage{
+	// Initialize the L1IncomingMessage
+	l1IncomingMsg := &arbostypes.L1IncomingMessage{
 		Header: msg.Message.Message.Header,
 		L2msg:  l2MsgData,
-	}, big.NewInt(utils.ArbiturmChainId))
+	}
+
+	// Check if BatchGasCost exists, and if so, assign it
+	if msg.Message.Message.BatchGasCost != nil {
+		l1IncomingMsg.BatchGasCost = msg.Message.Message.BatchGasCost
+	}
+
+	// Call ParseL2Transactions with the conditional l1IncomingMsg
+	txns, err := arbos.ParseL2Transactions(l1IncomingMsg, big.NewInt(utils.ArbiturmChainId))
 
 	if err != nil {
 		log.Fatalf("Error parsing txns: %v", err)
